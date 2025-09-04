@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AI Service Test</title>
+    <meta charset="UTF-8">
+</head>
+<body>
+    <h1>AI Service Test</h1>
+    <button onclick="testAIService()">Test AI Service</button>
+    <div id="result"></div>
+
+    <script>
+        async function testAIService() {
+            const data = {
+                book_title: "테스트 책",
+                author: "테스트 저자",
+                content: "재미있는 책입니다",
+                rating: 5,
+                user_emotion: "즐거움",
+                genre: "소설"
+            };
+
+            try {
+                const response = await fetch('http://localhost:8001/api/v1/reviews/analyze', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                const result = await response.json();
+                document.getElementById('result').innerHTML = '<pre>' + JSON.stringify(result, null, 2) + '</pre>';
+                console.log('Success:', result);
+            } catch (error) {
+                document.getElementById('result').innerHTML = 'Error: ' + error;
+                console.error('Error:', error);
+            }
+        }
+    </script>
+</body>
+</html>
